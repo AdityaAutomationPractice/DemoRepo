@@ -106,6 +106,25 @@ public class Workspaceneg {
 		String error_message = response.jsonPath().getString("error.message");
 		Assert.assertTrue(error_message.contains("Requested resource not found"));
 	}
+	
+	@When("send the Workspace end point without authentication")
+	public void send_the_workspace_end_point_without_authentication() throws IOException {
+		response = given().baseUri(Workspace.enter_the_base_url()).when().get().then().extract().response();
+	}
+
+	@Then("Validate the status code is {int}")
+	public void validate_the_status_code_is(Integer int1) {
+	    Assert.assertEquals(response.statusCode(), int1);
+	}
+
+	@Then("Validate the response for the request errors messages {string} {string}")
+	public void validate_the_response_for_the_request_errors_messages(String string, String string2) {
+	   String message =  response.jsonPath().getString("error.message");
+	   String name = response.jsonPath().getString("error.name");
+	   Assert.assertEquals(name, string);
+	   Assert.assertEquals(message, string2);
+	}
+
 
 
 
